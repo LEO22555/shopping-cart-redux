@@ -1,21 +1,26 @@
+// Componentes
 import NavBar from "./components/navbar/NavBar";
 import CartContainer from "./components/cart/CartContainer";
+import Modal from "./components/Modal";
+// Redux
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react"
-import { calculeTotals } from "./features/cart/cartSlice";
+import { useEffect } from "react";
+// Reducers
+import { calculateTotals } from "./features/cart/cartSlice";
 
 const App = () => {
-  //Obtiene acceso a los items
-  const {cartItems} = useSelector((store) => store.cart);
+  // Obtiene acceso a los items del cart
+  const { cartItems } = useSelector((store) => store.cart);
   const dispatch = useDispatch();
 
-  //Recalcula los totales cada vez que cambia cartItems
+  // Recalcula los totales cada vez que cambia cartItems
   useEffect(() => {
-    dispatch(calculeTotals());
+    dispatch(calculateTotals());
   }, [cartItems, dispatch]);
 
   return (
     <>
+      <Modal />
       <NavBar />
       <CartContainer />
     </>

@@ -4,7 +4,7 @@ import cartItems from "../../data/cartItems";
 // Estado inicial
 const initialState = {
   cartItems,
-  amount: 4,
+  amount: 0,
   total: 0,
 };
 
@@ -30,30 +30,33 @@ const cartSlice = createSlice({
       item.amount++;
     },
     decreaseItemAmount: (state, action) => {
-      // Obtiene el id del articulo a incrementar
+      // Obtiene el id del articulo a decrementar
       const itemId = action.payload;
       // Busca el articulo en el carrito
       const item = state.cartItems.find((item) => item.id === itemId);
-      // Incrementa la cantidad
+      // Reduce la cantidad
       item.amount--;
     },
-    calculeTotals: (state) => {
+    calculateTotals: (state) => {
       let totalAmount = 0;
       let totalPrice = 0;
+      // Recorre los items del cart
       state.cartItems.forEach((item) => {
         totalAmount += item.amount;
-        totalPrice += item.price * item.amount;
+        totalPrice += item.amount * item.price;
       });
+      // Modifica el estado
       state.amount = totalAmount;
       state.total = totalPrice;
     },
   },
 });
 
-export const { clearCart,
-     removeItem,
-     increaseItemAmount,
-     decreaseItemAmount,
-     calculeTotals,
-    } = cartSlice.actions;
+export const {
+  clearCart,
+  removeItem,
+  increaseItemAmount,
+  decreaseItemAmount,
+  calculateTotals,
+} = cartSlice.actions;
 export default cartSlice.reducer;
