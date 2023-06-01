@@ -29,7 +29,31 @@ const cartSlice = createSlice({
       // Incrementa la cantidad
       item.amount++;
     },
+    decreaseItemAmount: (state, action) => {
+      // Obtiene el id del articulo a incrementar
+      const itemId = action.payload;
+      // Busca el articulo en el carrito
+      const item = state.cartItems.find((item) => item.id === itemId);
+      // Incrementa la cantidad
+      item.amount--;
+    },
+    calculeTotals: (state) => {
+      let totalAmount = 0;
+      let totalPrice = 0;
+      state.cartItems.forEach((item) => {
+        totalAmount += item.amount;
+        totalPrice += item.price * item.amount;
+      });
+      state.amount = totalAmount;
+      state.total = totalPrice;
+    },
   },
 });
-export const { clearCart, removeItem, increaseItemAmount } = cartSlice.actions;
+
+export const { clearCart,
+     removeItem,
+     increaseItemAmount,
+     decreaseItemAmount,
+     calculeTotals,
+    } = cartSlice.actions;
 export default cartSlice.reducer;
